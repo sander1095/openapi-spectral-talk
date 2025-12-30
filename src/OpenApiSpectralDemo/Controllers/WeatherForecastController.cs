@@ -42,12 +42,10 @@ public class WeatherForecastController : ControllerBase
     /// <returns>A weather forecast for the specified day</returns>
     /// <response code="200">Returns the weather forecast</response>
     /// <response code="400">If the day parameter is invalid</response>
-    /// <response code="404">If the forecast is not found</response>
     /// <response code="500">If an internal server error occurs</response>
     [HttpGet("{day}", Name = "GetWeatherForecastByDay")]
     [ProducesResponseType(typeof(WeatherForecast), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public ActionResult<WeatherForecast> GetByDay(int day)
     {

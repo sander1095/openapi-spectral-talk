@@ -83,16 +83,6 @@
               }
             }
           },
-          "404": {
-            "description": "If the forecast is not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
           "500": {
             "description": "If an internal server error occurs",
             "content": {
