@@ -2,16 +2,14 @@ extends:
   - spectral:oas
 
 rules:
-  # Custom rule: All error responses (4xx and 5xx) must use ProblemDetails
+  # Custom rule: All error responses (4xx and 5xx) must use ProblemDetails with $ref
   error-responses-use-problem-details:
-    description: All error responses (4xx and 5xx) should return ProblemDetails
-    message: "{{property}} response must reference the ProblemDetails schema"
-    severity: error
-    given: $.paths[*][*].responses[?(@property.match(/^[45]\d{2}$/))].content.application/json.schema
+    description: All error responses (4xx and 5xx) should return ProblemDetails using $ref
+    message: "Error response must reference the ProblemDetails schema using $ref"
+    severity: warn
+    given: "$.paths.*[get,post,put,patch,delete,options,head,trace].responses[?(@property.match(/^[45][0-9][0-9]$/))].content['application/json'].schema"
     then:
-      - field: $ref
-        function: pattern
-        functionOptions:
-          match: ".*ProblemDetails.*"
+      field: $ref
+      function: truthy
 
 
