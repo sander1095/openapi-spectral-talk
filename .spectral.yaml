@@ -1,0 +1,17 @@
+extends:
+  - spectral:oas
+
+rules:
+  # Custom rule: All error responses (4xx and 5xx) must use ProblemDetails
+  error-responses-use-problem-details:
+    description: All error responses (4xx and 5xx) should return ProblemDetails
+    message: "{{property}} response must reference the ProblemDetails schema"
+    severity: error
+    given: $.paths[*][*].responses[?(@property.match(/^[45]\d{2}$/))].content.application/json.schema
+    then:
+      - field: $ref
+        function: pattern
+        functionOptions:
+          match: ".*ProblemDetails.*"
+
+

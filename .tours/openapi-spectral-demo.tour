@@ -1,0 +1,58 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "OpenAPI and Spectral Demo Tour",
+  "steps": [
+    {
+      "title": "Introduction",
+      "description": "Welcome to the OpenAPI and Spectral demo repository! This tour will guide you through the key components of the project.\n\nThis demo showcases:\n- .NET 10 ASP.NET Core Web API with controllers\n- Automatic OpenAPI document generation\n- ProblemDetails for standardized error responses\n- Spectral validation with custom rules\n- CI/CD pipeline with GitHub Actions"
+    },
+    {
+      "file": "src/OpenApiSpectralDemo/Program.cs",
+      "description": "## Application Entry Point\n\nThis is the main entry point for the ASP.NET Core application.\n\nKey configurations:\n- **AddControllers()**: Enables MVC controllers\n- **AddProblemDetails()**: Adds support for RFC 7807 Problem Details for HTTP APIs\n- **AddOpenApi()**: Configures OpenAPI document generation\n- **UseExceptionHandler() & UseStatusCodePages()**: Enable automatic ProblemDetails responses for errors",
+      "line": 1
+    },
+    {
+      "file": "src/OpenApiSpectralDemo/Controllers/WeatherForecastController.cs",
+      "description": "## API Controller\n\nThis controller demonstrates best practices for OpenAPI documentation:\n\n- XML documentation comments for descriptions\n- **ProducesResponseType** attributes to define response types\n- **ProblemDetails** for all error responses (400, 404, 500)\n- Proper use of ActionResult<T> for typed responses",
+      "line": 10
+    },
+    {
+      "file": "src/OpenApiSpectralDemo/Controllers/WeatherForecastController.cs",
+      "description": "## Error Response Example\n\nNotice how we return a **ProblemDetails** object for the 400 Bad Request response.\n\nThis ensures:\n- Consistent error format across the API\n- Compliance with RFC 7807 standard\n- Validation by our custom Spectral rule",
+      "line": 58
+    },
+    {
+      "file": "src/OpenApiSpectralDemo/OpenApiSpectralDemo.csproj",
+      "description": "## Project Configuration\n\nKey settings:\n- **Microsoft.AspNetCore.OpenApi**: Provides OpenAPI support for ASP.NET Core\n- **Microsoft.Extensions.ApiDescription.Server**: Generates OpenAPI documents at build time\n- **GenerateDocumentationFile**: Creates XML documentation for better OpenAPI descriptions\n- **OpenApiDocumentsDirectory**: Specifies where to output the generated OpenAPI document",
+      "line": 1
+    },
+    {
+      "file": ".spectral.yaml",
+      "description": "## Spectral Configuration\n\nSpectral is a JSON/YAML linter that validates OpenAPI documents.\n\nOur configuration:\n- **extends: spectral:oas**: Uses industry-standard OpenAPI rules from Spectral\n- **error-responses-use-problem-details**: Custom rule that enforces ProblemDetails for all 4xx and 5xx responses\n\nThis ensures our API follows best practices and maintains consistent error handling.",
+      "line": 1
+    },
+    {
+      "file": ".spectral.yaml",
+      "description": "## Custom Spectral Rule\n\nThis custom rule validates that all error responses (4xx and 5xx status codes) reference the ProblemDetails schema.\n\nThe rule uses JSONPath to:\n1. Find all responses with status codes starting with 4 or 5\n2. Check their JSON schema reference\n3. Ensure it contains 'ProblemDetails'\n\nIf an error response doesn't use ProblemDetails, the validation will fail.",
+      "line": 5
+    },
+    {
+      "file": ".github/workflows/openapi-spectral.yml",
+      "description": "## CI/CD Pipeline\n\nThis GitHub Actions workflow:\n1. Builds the .NET application\n2. Generates the OpenAPI document\n3. Validates it with Spectral\n\nThe pipeline runs on:\n- Every push to main/master\n- Every pull request\n- Manual trigger (workflow_dispatch)\n\nThis ensures the API documentation stays valid and follows best practices.",
+      "line": 1
+    },
+    {
+      "file": "openapi/OpenApiSpectralDemo.json",
+      "description": "## Generated OpenAPI Document\n\nThis is the automatically generated OpenAPI 3.1.1 document.\n\nIt includes:\n- Complete API specification\n- Request/response schemas\n- ProblemDetails schema for errors\n- XML documentation comments as descriptions\n\nThis file is generated during build and validated by Spectral.",
+      "line": 1
+    },
+    {
+      "title": "Running the Demo",
+      "description": "## How to Use This Demo\n\n### Build and Generate OpenAPI:\n```bash\ncd src/OpenApiSpectralDemo\ndotnet build\n```\n\n### Run Spectral Validation:\n```bash\nnpm install\nnpm run lint:openapi\n```\n\n### Run the API:\n```bash\ncd src/OpenApiSpectralDemo\ndotnet run\n```\n\nThen visit: http://localhost:5000/openapi/v1.json\n\n### Test the API:\nUse the provided .http file or your favorite API client:\n- GET /api/WeatherForecast - Get all forecasts\n- GET /api/WeatherForecast/3 - Get forecast for day 3\n- GET /api/WeatherForecast/99 - Trigger a 400 error with ProblemDetails"
+    },
+    {
+      "title": "Summary",
+      "description": "## Congratulations!\n\nYou've completed the tour of the OpenAPI and Spectral demo.\n\n### Key Takeaways:\n1. ✅ .NET 10 + ASP.NET Core generates OpenAPI documents automatically\n2. ✅ ProblemDetails provides standardized error responses\n3. ✅ Spectral validates OpenAPI documents against best practices\n4. ✅ Custom Spectral rules enforce project-specific requirements\n5. ✅ CI/CD pipeline ensures continuous validation\n\n### Next Steps:\n- Try adding a new controller and see the OpenAPI document update\n- Experiment with Spectral rules to enforce your own standards\n- Extend the API with more complex error scenarios\n\nHappy coding! 🚀"
+    }
+  ]
+}
