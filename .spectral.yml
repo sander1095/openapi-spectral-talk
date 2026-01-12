@@ -1,1 +1,4 @@
-extends: ["spectral:oas"]
+# Use the distributed ruleset from the local folder for now
+# After publishing to GitHub Packages, you can use:
+# extends: ["@sander1095/openapi-spectral-ruleset"]
+extends: ["./distributed-ruleset/.spectral.yml"]
