@@ -1,47 +1,51 @@
 name: Build and Validate OpenAPI
 
 on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main]
-    workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
 
 jobs:
-    build-and-validate:
-        runs-on: ubuntu-latest
+  build-and-validate:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Setup .NET 10
-              uses: actions/setup-dotnet@v4
-              with:
-                  dotnet-version: "10.0.x"
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
 
-            - name: Restore dependencies
-              run: dotnet restore src/UsersApi/UsersApi.csproj
+      - name: Restore dependencies
+        run: dotnet restore src/UsersApi/UsersApi.csproj
 
-            - name: Build project (generates OpenAPI document)
-              run: dotnet build src/UsersApi/UsersApi.csproj --no-restore
+      - name: Build project (generates OpenAPI document)
+        run: dotnet build src/UsersApi/UsersApi.csproj --no-restore
 
-            - name: Verify OpenAPI document was generated
-              run: |
-                  if [ -f "openapi.json" ]; then
-                    echo "✅ OpenAPI document generated successfully"
-                    cat openapi.json
-                  else
-                    echo "❌ OpenAPI document not found!"
-                    exit 1
-                  fi
+      - name: Verify OpenAPI document was generated
+        run: |
+          if [ -f "openapi.json" ]; then
+            echo "✅ OpenAPI document generated successfully"
+            cat openapi.json
+          else
+            echo "❌ OpenAPI document not found!"
+            exit 1
+          fi
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "22"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
-            # Run Spectral
-            - uses: stoplightio/spectral-action@latest
-              with:
-                  file_glob: "openapi.json"
+      # Run Spectral
+      - uses: stoplightio/spectral-action@latest
+        with:
+          file_glob: "openapi.json"
