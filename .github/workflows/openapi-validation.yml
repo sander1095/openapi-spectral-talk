@@ -7,10 +7,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  checks: write
-
 jobs:
   build-and-validate:
     runs-on: ubuntu-latest
@@ -45,7 +41,8 @@ jobs:
         with:
           node-version: "22"
 
-      # Run Spectral
-      - uses: stoplightio/spectral-action@latest
-        with:
-          file_glob: "openapi.json"
+      - name: Install Spectral
+        run: npm install -g @stoplight/spectral-cli
+
+      - name: Lint OpenAPI document with Spectral
+        run: spectral lint openapi.json --fail-severity=warn
