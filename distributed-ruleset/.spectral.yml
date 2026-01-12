@@ -1,29 +1,49 @@
 extends: ["spectral:oas"]
 
 rules:
-  # Custom rule: Ensure all operations have summaries
-  operation-summary:
-    description: "All operations must have a summary"
-    given: "$.paths[*][get,post,put,delete,patch]"
+  # Require API versioning in the path
+  api-path-versioning:
+    description: "API paths should include version number (e.g., /v1/, /api/v1/)"
+    given: "$.paths[*]~"
     severity: warn
     then:
-      field: summary
-      function: truthy
+      function: pattern
+      functionOptions:
+        match: "^/?(api/)?v[0-9]+"
 
-  # Custom rule: Ensure all operations have descriptions
-  operation-description:
-    description: "All operations should have a description"
-    given: "$.paths[*][get,post,put,delete,patch]"
-    severity: info
-    then:
-      field: description
-      function: truthy
-
-  # Custom rule: Ensure operations have operation IDs
-  operation-operationId:
-    description: "All operations must have an operationId"
-    given: "$.paths[*][get,post,put,delete,patch]"
+  # Ensure error responses include schema
+  error-response-schema:
+    description: "4xx and 5xx responses should include a response schema"
+    given: "$.paths[*][*].responses[?(@property.match(/^[45][0-9]{2}$/))].content.application/json"
     severity: error
     then:
-      field: operationId
+      field: schema
       function: truthy
+
+  # Require security schemes to be defined
+  security-schemes-defined:
+    description: "API should define security schemes in components"
+    given: "$"
+    severity: warn
+    then:
+      field: components.securitySchemes
+      function: truthy
+
+  # Require examples in request bodies
+  request-body-examples:
+    description: "Request bodies should include examples"
+    given: "$.paths[*][post,put,patch].requestBody.content.application/json"
+    severity: info
+    then:
+      field: examples
+      function: truthy
+
+  # Ensure response descriptions are meaningful
+  response-description-length:
+    description: "Response descriptions should be meaningful (at least 10 characters)"
+    given: "$.paths[*][*].responses[*].description"
+    severity: warn
+    then:
+      function: length
+      functionOptions:
+        min: 10
