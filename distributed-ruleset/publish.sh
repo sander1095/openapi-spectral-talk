@@ -5,6 +5,18 @@
 
 set -e
 
+# Cleanup function to remove sensitive files
+cleanup() {
+    if [ -f ".npmrc" ]; then
+        rm -f .npmrc
+        echo ""
+        echo "🧹 Cleaned up authentication file"
+    fi
+}
+
+# Set trap to ensure cleanup happens even on error
+trap cleanup EXIT
+
 echo "🚀 Publishing OpenAPI Spectral Ruleset to GitHub Packages"
 echo ""
 
@@ -45,8 +57,3 @@ echo "✅ Package published successfully!"
 echo ""
 echo "You can now install it with:"
 echo "  npm install @sander1095/openapi-spectral-ruleset"
-
-# Clean up .npmrc (contains sensitive token)
-rm -f .npmrc
-echo ""
-echo "🧹 Cleaned up authentication file"
