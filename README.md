@@ -191,6 +191,8 @@ Runs when changes are pushed to the `distributed-ruleset/` folder on `main`, or 
 
 Both workflows can also be triggered manually using the "Run workflow" button in the GitHub Actions tab.
 
+For detailed instructions on publishing and consuming the ruleset package, see [PUBLISHING.md](PUBLISHING.md).
+
 ## License
 
 MIT
