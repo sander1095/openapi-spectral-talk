@@ -40,11 +40,22 @@ This project demonstrates how to use [Spectral](https://stoplight.io/open-source
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 - [Node.js](https://nodejs.org/) (for Spectral)
-- [Spectral CLI](https://github.com/stoplightio/spectral#-installation)
 
 ## Getting Started
 
-### 1. Build the project (generates OpenAPI document)
+### 1. Restore dependencies
+
+```bash
+dotnet restore src/UsersApi/UsersApi.csproj
+```
+
+This will:
+- Restore .NET packages
+- Install Husky.NET as a local tool
+- Install git hooks for pre-commit validation
+- Install npm packages (including Spectral CLI)
+
+### 2. Build the project (generates OpenAPI document)
 
 ```bash
 dotnet build src/UsersApi/UsersApi.csproj
@@ -52,16 +63,12 @@ dotnet build src/UsersApi/UsersApi.csproj
 
 This generates `openapi.json` in the repository root.
 
-### 2. Install Spectral
-
-```bash
-npm install -g @stoplight/spectral-cli
-```
-
 ### 3. Validate the OpenAPI document
 
 ```bash
-spectral lint openapi.json
+npm run lint
+# or
+npx spectral lint openapi.json
 ```
 
 ### 4. Run the API (optional)
@@ -84,6 +91,19 @@ The project uses `Microsoft.Extensions.ApiDescription.Server` to generate the Op
   <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)/../../</OpenApiDocumentsDirectory>
   <OpenApiGenerateDocumentsOptions>--file-name openapi</OpenApiGenerateDocumentsOptions>
 </PropertyGroup>
+```
+
+### Pre-commit Hooks with Husky.NET
+
+The project uses [Husky.NET](https://github.com/alirezanet/Husky.Net) to automatically run Spectral linting before commits:
+
+- **Automatic setup**: When you run `dotnet restore`, Husky.NET installs git hooks and npm packages
+- **Pre-commit validation**: Before every commit, Spectral automatically lints the OpenAPI document
+- **Configuration**: Hook tasks are defined in `.husky/task-runner.json`
+
+To disable hooks temporarily, set the `HUSKY` environment variable to 0:
+```bash
+HUSKY=0 git commit -m "message"
 ```
 
 ### Spectral Configuration
