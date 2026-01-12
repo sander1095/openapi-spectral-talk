@@ -2,6 +2,8 @@
 
 This project demonstrates how to use [Spectral](https://stoplight.io/open-source/spectral) to validate OpenAPI documents generated from an ASP.NET Core application, with a focus on **distributing custom rulesets via NPM packages**.
 
+> 🚀 **Quick Start**: New to this project? Check out the [Quick Start Guide](QUICKSTART.md) to get up and running quickly!
+
 ## Project Structure
 
 ```
