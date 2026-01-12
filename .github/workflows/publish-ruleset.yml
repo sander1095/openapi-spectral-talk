@@ -1,0 +1,32 @@
+name: Publish Ruleset Package
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'distributed-ruleset/**'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@sander1095'
+
+      - name: Publish to GitHub Packages
+        working-directory: distributed-ruleset
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

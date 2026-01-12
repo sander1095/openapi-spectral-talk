@@ -1,0 +1,17 @@
+{
+  "name": "openapi-spectral-talk",
+  "version": "1.0.0",
+  "description": "Demo project showing OpenAPI validation with Spectral using distributed rulesets",
+  "private": true,
+  "scripts": {
+    "lint": "spectral lint openapi.json",
+    "build:api": "dotnet build src/UsersApi/UsersApi.csproj",
+    "validate": "npm run build:api && npm run lint"
+  },
+  "devDependencies": {
+    "@stoplight/spectral-cli": "^6.11.0",
+    "@sander1095/openapi-spectral-ruleset": "^1.0.0"
+  },
+  "author": "sander1095",
+  "license": "MIT"
+}

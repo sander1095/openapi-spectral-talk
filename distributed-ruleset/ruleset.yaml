@@ -1,0 +1,22 @@
+extends: ["spectral:oas"]
+
+rules:
+  # Custom rule: Ensure all operations have summaries
+  operation-summary:
+    description: "Operations must have a summary"
+    message: "Operation must have a summary"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete,options,head]"
+    then:
+      field: summary
+      function: truthy
+
+  # Custom rule: Ensure all operations have descriptions
+  operation-description:
+    description: "Operations should have descriptions"
+    message: "Operation should have a description for better API documentation"
+    severity: info
+    given: "$.paths[*][get,post,put,patch,delete,options,head]"
+    then:
+      field: description
+      function: truthy

@@ -1,0 +1,21 @@
+{
+  "name": "@sander1095/openapi-spectral-ruleset",
+  "version": "1.0.0",
+  "description": "Shared Spectral ruleset for OpenAPI validation",
+  "main": "ruleset.yaml",
+  "keywords": [
+    "spectral",
+    "openapi",
+    "ruleset",
+    "validation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sander1095/openapi-spectral-talk.git"
+  },
+  "author": "sander1095",
+  "license": "MIT",
+  "files": [
+    "ruleset.yaml"
+  ]
+}
