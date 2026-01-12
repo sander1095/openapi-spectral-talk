@@ -1,0 +1,14 @@
+{
+   "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
+   "tasks": [
+      {
+         "name": "spectral-lint",
+         "command": "bash",
+         "args": [ "-c", "npx spectral lint openapi.json" ],
+         "windows": {
+            "command": "cmd",
+            "args": ["/c", "npx spectral lint openapi.json" ]
+         }
+      }
+   ]
+}

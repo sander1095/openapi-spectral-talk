@@ -1,0 +1,11 @@
+{
+  "name": "openapi-spectral-talk",
+  "version": "1.0.0",
+  "description": "OpenAPI Spectral validation demo with Husky.NET pre-commit hooks",
+  "scripts": {
+    "lint": "spectral lint openapi.json"
+  },
+  "devDependencies": {
+    "@stoplight/spectral-cli": "^6.13.1"
+  }
+}
