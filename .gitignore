@@ -426,5 +426,5 @@ FodyWeavers.xsd
 .env.*.local
 aspire-manifest.json
 
-# Azure deployment state
-**/.aspire/
+
+**/aspire-output/
