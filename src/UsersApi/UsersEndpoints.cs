@@ -7,8 +7,8 @@ public static class UsersEndpoints
 {
     private static readonly List<User> _users =
     [
-        new User(1, "John Doe", "john@example.com"),
-        new User(2, "Jane Smith", "jane@example.com")
+        new User(1, "John Doe"),
+        new User(2, "Jane Smith")
     ];
 
     private static int _nextId = 3;
@@ -77,29 +77,19 @@ public static class UsersEndpoints
     /// Creates a new user.
     /// </summary>
     /// <param name="request">The user creation request.</param>
-    private static Results<Created<User>, BadRequest<ProblemDetails>, Conflict<ProblemDetails>> CreateUser(CreateUserRequest request)
+    private static Results<Created<User>, BadRequest<ProblemDetails>> CreateUser(CreateUserRequest request)
     {
-        if (string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.Email))
+        if (string.IsNullOrWhiteSpace(request.Name))
         {
             return TypedResults.BadRequest(new ProblemDetails
             {
                 Title = "Invalid request",
-                Detail = "Name and Email are required fields.",
+                Detail = "Name is a required field.",
                 Status = StatusCodes.Status400BadRequest
             });
         }
 
-        if (_users.Any(u => u.Email.Equals(request.Email, StringComparison.OrdinalIgnoreCase)))
-        {
-            return TypedResults.Conflict(new ProblemDetails
-            {
-                Title = "Email already exists",
-                Detail = $"A user with email '{request.Email}' already exists.",
-                Status = StatusCodes.Status409Conflict
-            });
-        }
-
-        var user = new User(_nextId++, request.Name, request.Email);
+        var user = new User(_nextId++, request.Name);
         _users.Add(user);
 
         return TypedResults.Created($"/users/{user.Id}", user);
@@ -110,14 +100,14 @@ public static class UsersEndpoints
     /// </summary>
     /// <param name="id">The ID of the user to update.</param>
     /// <param name="request">The user update request.</param>
-    private static Results<Ok<User>, NotFound<ProblemDetails>, BadRequest<ProblemDetails>, Conflict<ProblemDetails>> UpdateUser(int id, UpdateUserRequest request)
+    private static Results<Ok<User>, NotFound<ProblemDetails>, BadRequest<ProblemDetails>> UpdateUser(int id, UpdateUserRequest request)
     {
-        if (string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.Email))
+        if (string.IsNullOrWhiteSpace(request.Name))
         {
             return TypedResults.BadRequest(new ProblemDetails
             {
                 Title = "Invalid request",
-                Detail = "Name and Email are required fields.",
+                Detail = "Name is a required field.",
                 Status = StatusCodes.Status400BadRequest
             });
         }
@@ -134,17 +124,7 @@ public static class UsersEndpoints
             });
         }
 
-        if (_users.Any(u => u.Id != id && u.Email.Equals(request.Email, StringComparison.OrdinalIgnoreCase)))
-        {
-            return TypedResults.Conflict(new ProblemDetails
-            {
-                Title = "Email already exists",
-                Detail = $"A user with email '{request.Email}' already exists.",
-                Status = StatusCodes.Status409Conflict
-            });
-        }
-
-        var updatedUser = new User(id, request.Name, request.Email);
+        var updatedUser = new User(id, request.Name);
         _users[existingUserIndex] = updatedUser;
 
         return TypedResults.Ok(updatedUser);
