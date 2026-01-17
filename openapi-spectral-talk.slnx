@@ -1,5 +1,7 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/Aspire.AppHost/Aspire.AppHost.csproj" Id="faf7c8e2-568c-4d04-a5fd-9452232e56ed" />
+    <Project Path="src/Aspire.ServiceDefaults/Aspire.ServiceDefaults.csproj" />
     <Project Path="src/UsersApi/UsersApi.csproj" />
   </Folder>
 </Solution>
