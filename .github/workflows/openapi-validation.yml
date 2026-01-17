@@ -79,9 +79,6 @@ jobs:
     if: github.event_name == 'pull_request'
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Download OpenAPI document
         uses: actions/download-artifact@v4
         with:
