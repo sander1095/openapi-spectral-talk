@@ -8,8 +8,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-validate:
+  build:
     runs-on: ubuntu-latest
+    name: Build project
 
     steps:
       - name: Checkout repository
@@ -36,6 +37,26 @@ jobs:
             exit 1
           fi
 
+      - name: Upload OpenAPI document
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-document
+          path: openapi.json
+
+  spectral:
+    runs-on: ubuntu-latest
+    name: Validate API specification against styleguide
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download OpenAPI document
+        uses: actions/download-artifact@v4
+        with:
+          name: openapi-document
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -46,3 +67,24 @@ jobs:
 
       - name: Lint OpenAPI document with Spectral
         run: spectral lint openapi.json --fail-severity=warn
+
+  breaking-changes:
+    runs-on: ubuntu-latest
+    name: Check for Breaking API Changes
+    needs: build
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download OpenAPI document
+        uses: actions/download-artifact@v4
+        with:
+          name: openapi-document
+
+      - name: Check for breaking API changes
+        uses: oasdiff/oasdiff-action/breaking@main
+        with:
+          base: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.base_ref }}/openapi.json
+          revision: openapi.json
