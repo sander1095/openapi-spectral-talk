@@ -89,3 +89,4 @@ jobs:
         with:
           base: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.base_ref }}/openapi.json
           revision: openapi.json
+          fail-on: "WARN"
