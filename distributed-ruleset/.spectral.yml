@@ -1,16 +1,4 @@
-extends: ["spectral:oas"]
-
 rules:
-  # Require API versioning in the path
-  api-path-versioning:
-    description: "API paths should include version number (e.g., /v1/, /api/v1/)"
-    given: "$.paths[*]~"
-    severity: warn
-    then:
-      function: pattern
-      functionOptions:
-        match: "^/?(api/)?v[0-9]+"
-
   # Ensure error responses include schema
   error-response-schema:
     description: "4xx and 5xx responses should include a response schema"
@@ -19,31 +7,3 @@ rules:
     then:
       field: schema
       function: truthy
-
-  # Require security schemes to be defined
-  security-schemes-defined:
-    description: "API should define security schemes in components"
-    given: "$"
-    severity: warn
-    then:
-      field: components.securitySchemes
-      function: truthy
-
-  # Require examples in request bodies
-  request-body-examples:
-    description: "Request bodies should include examples"
-    given: "$.paths[*][post,put,patch].requestBody.content.application/json"
-    severity: info
-    then:
-      field: examples
-      function: truthy
-
-  # Ensure response descriptions are meaningful
-  response-description-length:
-    description: "Response descriptions should be meaningful (at least 10 characters)"
-    given: "$.paths[*][*].responses[*].description"
-    severity: warn
-    then:
-      function: length
-      functionOptions:
-        min: 10

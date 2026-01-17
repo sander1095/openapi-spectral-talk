@@ -300,7 +300,6 @@ FakesAssemblies/
 # Node.js Tools for Visual Studio
 .ntvs_analysis.dat
 node_modules/
-package-lock.json
 # Don't commit .npmrc files with auth tokens
 distributed-ruleset/.npmrc
 

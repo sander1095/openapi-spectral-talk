@@ -1,6 +1,6 @@
 {
   "name": "@sander1095/openapi-spectral-ruleset",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A distributed Spectral ruleset for OpenAPI validation",
   "main": ".spectral.yml",
   "files": [

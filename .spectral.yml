@@ -1,4 +1,30 @@
-# Development: Use the local distributed ruleset
-# This allows testing the ruleset before publishing to GitHub Packages
-# After publishing, update this to: extends: ["@sander1095/openapi-spectral-ruleset"]
-extends: ["./distributed-ruleset/.spectral.yml"]
+extends: ["spectral:oas", "@sander1095/openapi-spectral-ruleset"]
+#rules:
+# Require API versioning in the path
+# api-path-versioning:
+#   description: "API paths should include version number (e.g., /v1/, /api/v1/)"
+#   given: "$.paths[*]~"
+#   severity: warn
+#   then:
+#     function: pattern
+#     functionOptions:
+#       match: "^/?(api/)?v[0-9]+"
+
+# Require security schemes to be defined
+# security-schemes-defined:
+#   description: "API should define security schemes in components"
+#   given: "$"
+#   severity: warn
+#   then:
+#     field: components.securitySchemes
+#     function: truthy
+
+# Ensure response descriptions are meaningful
+# response-description-length:
+#   description: "Response descriptions should be meaningful (at least 10 characters)"
+#   given: "$.paths[*][*].responses[*].description"
+#   severity: warn
+#   then:
+#     function: length
+#     functionOptions:
+#       min: 10
