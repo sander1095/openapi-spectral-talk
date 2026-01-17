@@ -418,3 +418,13 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Azure and Aspire deployment artifacts
+**/.azure/
+**/azd-hooks/
+.env.local
+.env.*.local
+aspire-manifest.json
+
+# Azure deployment state
+**/.aspire/
