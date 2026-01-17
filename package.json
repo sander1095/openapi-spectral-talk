@@ -10,7 +10,7 @@
     "@stoplight/spectral-cli": "^6.11.0"
   },
   "dependencies": {
-    "@sander1095/openapi-spectral-ruleset": "^1.0.0"
+    "@sander1095/openapi-spectral-ruleset": "1.0.1"
   },
   "repository": {
     "type": "git",
