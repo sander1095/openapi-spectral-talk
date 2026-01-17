@@ -61,12 +61,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@sander1095"
 
-      - name: Install Spectral
-        run: npm install -g @stoplight/spectral-cli
+      - name: Install dependencies
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint OpenAPI document with Spectral
-        run: spectral lint openapi.json --fail-severity=warn
+        run: npx spectral lint openapi.json --fail-severity=warn
 
   breaking-changes:
     runs-on: ubuntu-latest

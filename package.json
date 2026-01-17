@@ -1,0 +1,21 @@
+{
+  "name": "openapi-spectral-talk",
+  "version": "1.0.0",
+  "description": "OpenAPI Spectral Talk - Demo project showcasing Spectral's distributed ruleset feature",
+  "private": true,
+  "scripts": {
+    "validate": "spectral lint openapi.json"
+  },
+  "devDependencies": {
+    "@stoplight/spectral-cli": "^6.11.0"
+  },
+  "dependencies": {
+    "@sander1095/openapi-spectral-ruleset": "1.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sander1095/openapi-spectral-talk.git"
+  },
+  "author": "sander1095",
+  "license": "MIT"
+}
