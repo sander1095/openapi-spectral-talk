@@ -100,23 +100,6 @@ The project uses `Microsoft.Extensions.ApiDescription.Server` to generate the Op
 </PropertyGroup>
 ```
 
-### Spectral Configuration
-
-The `.spectral.yml` file references the distributed ruleset from the NPM package:
-
-```yaml
-# Use the distributed ruleset from the local folder for now
-# After publishing to GitHub Packages, you can use:
-# extends: ["@sander1095/openapi-spectral-ruleset"]
-extends: ["./distributed-ruleset/.spectral.yml"]
-```
-
-After the ruleset is published to GitHub Packages, you can update this to:
-
-```yaml
-extends: ["@sander1095/openapi-spectral-ruleset"]
-```
-
 ### GitHub Actions
 
 The project includes two GitHub Actions workflows:
@@ -186,16 +169,6 @@ To use the published ruleset in another project:
    ```yaml
    extends: ["@sander1095/openapi-spectral-ruleset"]
    ```
-
-### Ruleset Rules
-
-The distributed ruleset includes these custom rules:
-
-- **operation-summary**: All operations must have a summary (warning)
-- **operation-description**: All operations should have a description (info)
-- **operation-operationId**: All operations must have an operationId (error)
-
-These rules extend the base `spectral:oas` ruleset.
 
 ## License
 
