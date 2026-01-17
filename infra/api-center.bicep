@@ -8,7 +8,7 @@ param tags object = {
 
 // Azure API Center resource (Free tier is the default)
 resource apiCenter 'Microsoft.ApiCenter/services@2024-03-01' = {
-  name: 'apic-api-linting'
+  name: 'apic-api-linting-free'
   location: location
   properties: {
     // Free tier is automatically applied

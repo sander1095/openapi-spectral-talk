@@ -18,7 +18,7 @@
     The unique identifier for the API in API Center (default: users-api)
 
 .EXAMPLE
-    .\deploy.ps1 -ResourceGroupName "rg-openapi-spectral" -ApiCenterName "apic-api-linting"
+    .\deploy.ps1 -ResourceGroupName "rg-openapi-spectral" -ApiCenterName "apic-api-linting-free"
 #>
 
 [CmdletBinding()]
@@ -27,7 +27,7 @@ param(
     [string]$ResourceGroupName = "rg-api-linting",
 
     [Parameter(Mandatory = $false)]
-    [string]$ApiCenterName = "apic-api-linting",
+    [string]$ApiCenterName = "apic-api-linting-free",
 
     [Parameter(Mandatory = $false)]
     [string]$ApiId = "users-api"
@@ -80,6 +80,12 @@ catch {
     Write-Error "Error during Aspire deployment: $_"
     exit 1
 }
+
+# Wait for resources to be fully provisioned
+Write-Host "Waiting 1 minute for Azure resources to be fully provisioned..." -ForegroundColor Yellow
+Start-Sleep -Seconds 60
+Write-Host "✓ Wait complete" -ForegroundColor Green
+Write-Host ""
 
 # Step 2: Register API in Azure API Center
 Write-Host "Step 2: Registering API in Azure API Center..." -ForegroundColor Yellow
