@@ -3,6 +3,7 @@
         "stoplight.spectral",
         "ms-dotnettools.csdevkit",
         "eliostruyf.vscode-demo-time",
-        "vsls-contrib.codetour"
+        "vsls-contrib.codetour",
+        "apidev.azure-api-center"
     ]
 }

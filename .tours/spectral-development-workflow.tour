@@ -1,0 +1,41 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Spectral Development Workflow",
+  "steps": [
+    {
+      "file": "openapi.json",
+      "description": "For Local Development, I've installed the Spectral Visual Studio Code extension.\r\n\r\nThis is also available for Rider, and I have vibe-coded a preview version for Visual Studio (https://github.com/sander1095/Spectral.VisualStudio)\r\n\r\nThe Extension will highlight the issues in your Problems view, giving you insight in your API guidelines during development",
+      "line": 1
+    },
+    {
+      "file": ".github/workflows/openapi-validation.yml",
+      "description": "In the pipeline I am running Spectral with `--fail-severity=warn`, which will cause a failure when any warnings are discovered.\r\n\r\nSetting the fail severity to a specific level is up to preference. Personally, `error` would be better, with warnings shown as comments in the PR. But again, that's up to preference.\r\n\r\nLike I said in the slides, I believe it's important to not impede  Development flow, otherwise people will start working around things.\r\n\r\nLet's take a look that's blocked because of API linting (And breaking changes): https://github.com/sander1095/openapi-spectral-talk/actions/runs/21096211357",
+      "line": 72
+    },
+    {
+      "file": ".spectral.yml",
+      "description": "Next, there's the matter of publishing and sharing your rulesets with other teams.\r\n\r\nYou can do this with NPM modules, an HTTP url, or with git submodules.\r\n\r\nIn this case, I've created a ruleset in `distributed-ruleset` and packed it as an NPM package in GitHub Artifacts, which is part of my `package.json` and used here. In cases where you don't use NPM (much) in your ecosystem, I think a git submodule would also be quite useful.",
+      "line": 1
+    },
+    {
+      "file": "distributed-ruleset/.spectral.yml",
+      "description": "Here we can see the ruleset that's part of the package. In this case, each error must have a schema, so we don't return empty response bodies.",
+      "line": 1
+    },
+    {
+      "file": ".github/workflows/publish-ruleset.yml",
+      "description": "This distributed ruleset is part of a GitHub Actions workflow.",
+      "line": 33
+    },
+    {
+      "file": "infra/api-center.bicep",
+      "description": "Finally, there's the API center integration, together with the API Center extension.\r\n\r\nI use https://aspire.dev and `deploy.ps1` to deploy the API to Azure Container Apps, and load the definition into API center.\r\n\r\nAPI Center will then analyse my API linting rules.\r\n\r\nIn this repo, you can see me doing the same thing in the CI/CD pipeline. I believe that's quite powerful, but API Center would make it so you don't need to use that in each pipeline.\r\n\r\n[Link to Azure Portal](https://portal.azure.com/?l=en.nl-nl#@Sandertenbrinkexs4all.onmicrosoft.com/resource/subscriptions/65cbea20-04e6-49ae-869f-bcd6fb4d318f/resourceGroups/rg-api-linting/providers/Microsoft.ApiCenter/services/apic-api-linting-free/center)\r\n\r\n**Upload the ruleset and function with Azure API center**",
+      "line": 10
+    },
+    {
+      "file": ".api-center-rules/apic-api-linting-free/spectral-openapi/ruleset.yml",
+      "description": "These are the rules from API center.\r\n\r\nYou can edit these thanks to the VSCode extension. You can also use the `az` CLI, but that isn't a part of this demo (yet)",
+      "line": 1
+    }
+  ]
+}
