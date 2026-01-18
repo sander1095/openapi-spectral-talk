@@ -18,7 +18,7 @@ public static class UsersEndpoints
         var group = app.MapGroup("/users")
             .WithTags("Users");
 
-        group.MapGet("/", GetAllUsers)
+        group.MapGet("/hi", GetAllUsers)
             .WithName("GetAllUsers")
             .WithSummary("Get all users")
             .WithDescription("Returns a list of all users in the system.");
