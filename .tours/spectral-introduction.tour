@@ -1,0 +1,71 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Spectral introduction",
+  "steps": [
+    {
+      "file": "src/UsersApi/Program.cs",
+      "description": "We use `Microsoft.AspNetCore.OpenApi` for our OpenAPI capabilities",
+      "line": 9
+    },
+    {
+      "file": "src/UsersApi/Program.cs",
+      "description": "We use `Scalar` to render our API definitions for visualization and try-outs",
+      "line": 20
+    },
+    {
+      "file": "src/UsersApi/UsersEndpoints.cs",
+      "description": "We have a little CRUD API for users, using Minimal API's.\r\n\r\nAs you can see we use WithName, WithSummary, WithDescription to make it more clear what endpoints do",
+      "line": 18
+    },
+    {
+      "file": "src/UsersApi/UsersEndpoints.cs",
+      "description": "This endpoint returns a user.\r\n\r\nInstead of WithSummary, you can also use XML comments, if you enable `GenerateDocumentationFile` in your csproj.\r\nThe Param will add documentation for the parameter.\r\n\r\nFinally, we use TypedResults to get compile-time safety for all the types we want to return, which is also inserted into the OpenAPI file.\r\n\r\nWe use ProblemDetails for the uniform API error type.\r\n\r\n**Let's try Scalar out:**  https://localhost:62540/scalar/",
+      "line": 61
+    },
+    {
+      "file": "src/UsersApi/UsersApi.csproj",
+      "description": "Because we want Spectral to validate our API by using an OpenAPI document, it's easiest to generate that document on build.\r\n\r\nWe can do this by installing `Microsoft.Extensions.ApiDescription.Server` and setting the properties above.\r\nIn this case, it will generate an `openapi.json` in the root of the project",
+      "line": 11
+    },
+    {
+      "file": "openapi.json",
+      "description": "This is the generated OpenAPI file.\r\n\r\nHere we see the endpoint for retrieving users. You can see that it has yellow lines, which we'll talk about in the next demo.\r\n\r\n\r\nLet's now use Spectral to validate our OpenAPI document:\r\n\r\n`spectral lint openapi.json`\r\n",
+      "line": 19
+    },
+    {
+      "file": ".spectral.yml",
+      "description": "`Spectral.yml` contains all our rules, and you can see we have 0 active right now, but we still get warnings.\r\n\r\nThis is because `spectral:oas` contains default rules for us to set a baseline.\r\n\r\nWe can disable these by doing something like:\r\n\r\n```\r\nrules:\r\n  info-contact: off\r\n```\r\n\r\n\r\nBut I recommend keeping them on and solving them instead!",
+      "line": 3
+    },
+    {
+      "file": "src/UsersApi/Program.cs",
+      "description": "Spectral complained about missing metadata like the contact info, description and servers.\r\n\r\nWe can add this by using a Document Transformers:\r\n\r\n```csharp\r\nx.AddDocumentTransformer((document, context, cancellationToken) =>\r\n{\r\n    document.Info.Version = \"1.0.0\";\r\n    document.Info.Contact = new()\r\n    {\r\n        Name = \"Sander ten Brinke\",\r\n        Email = \"s.tenbrinke2@gmail.com\",\r\n        Url = new Uri(\"https://stenbrinke.nl\")\r\n    };\r\n    document.Info.Description = \"An example API for managing users.\";\r\n    document.Servers?.Add(new() { Url = \"https://localhost:62540\" });\r\n    return Task.CompletedTask;\r\n});\r\n```",
+      "line": 11
+    },
+    {
+      "file": "src/UsersApi/UsersEndpoints.cs",
+      "description": "Spectral also complained about a missing OperationId.\r\n\r\nAn operationID gives each endpoint a unique identifier. This is important for lots of tooling like API Client generation.\r\n\r\nLet's add it!\r\n\r\n```csharp\r\n            .WithName(\"GetAllUsers\")\r\n```\r\n\r\nNow, let's re-run the validation!",
+      "line": 22
+    },
+    {
+      "file": ".spectral.yml",
+      "description": "Let's start adding a custom rule that validates that our paths are all kebab-case.\r\n\r\nThis will validate `users/{id}/liked-posts` instead of `users/{id}/LikedPosts`\r\n\r\n```\r\nrules:\r\n  paths-kebab-case:\r\n    description: Paths should be kebab-case.\r\n    message: \"{{property}} should be kebab-case (lower-case and separated with hyphens)\"\r\n    severity: warn\r\n    given: $.paths[*]~\r\n    then:\r\n      function: pattern\r\n      functionOptions:\r\n        match: \"^(\\/|[a-z0-9-.]+|{[a-zA-Z0-9_]+})+$\"\r\n\r\n\r\n```\r\n\r\n",
+      "line": 22
+    },
+    {
+      "file": ".spectral.yml",
+      "description": "To create more complex rules, you can use JavaScript or even TypeScript!\r\n\r\nIn this next example, we'll add a JavaScript function that validates that each endpoint has security enabled, or that it's enabled globally.\r\n\r\nTo do this, we must reference where Spectral finds these functions:\r\n\r\n```\r\nfunctionsDir: \"./spectral-functions\"\r\nfunctions:\r\n  - operation-security\r\n\r\n```",
+      "line": 5
+    },
+    {
+      "file": "spectral-functions/operation-security.js",
+      "description": "Let's go ahead and create this rule in JavaScript:\r\n\r\n```\r\n// Check API definition to ensure conformance to security schemes guidelines.\r\n\r\n// Check:\r\n// - Operation (input) has a `security`, or there is a global `security`.\r\n\r\n// @param input - an operation\r\nmodule.exports = (input, _, context) => {\r\n  if (input === null || typeof input !== \"object\") {\r\n    return [];\r\n  }\r\n\r\n  // If there is a global `security`, no need to check the operation.\r\n  if (context.document.data.security) {\r\n    return [];\r\n  }\r\n\r\n  const path = context.path || [];\r\n\r\n  if (!input.security) {\r\n    return [\r\n      {\r\n        message: \"Operation should have a security requirement.\",\r\n        path: [...path, \"security\"],\r\n      },\r\n    ];\r\n  }\r\n\r\n  return [];\r\n};\r\n```\r\n\r\n",
+      "line": 85
+    },
+    {
+      "file": ".spectral.yml",
+      "description": "Now, we must declare connect the rule to the function.\r\n\r\nAt the time of writing, ASP.NET Core 10 doesn't automatically fill OpenAPI's security objects based on your auth schemes. Hopefully this will be added to .NET 11.\r\n\r\nTo save us time, I'll skip over adding this in this demo.\r\n\r\nLet's call `spectral lint ./openapi.json` and then move on to the next part.\r\n\r\nIf you want to learn more, take a look at: https://github.com/dotnet/aspnetcore/issues/39761. A good way to start adding it manually is described by Duende's blog post: https://duendesoftware.com/blog/20251126-securing-openapi-and-swagger-ui-with-oauth-in-dotnet-10\r\n\r\n```\r\n\r\n\r\n  operation-security:\r\n    description: Operation should have a security requirement or globally.\r\n    message: Operation should have a security requirement.\r\n    severity: warn\r\n    formats: ['oas3']\r\n    given: $.paths.*[get,put,post,patch,delete,options,head]\r\n    then:\r\n      function: operation-security\r\n```",
+      "line": 40
+    }
+  ]
+}

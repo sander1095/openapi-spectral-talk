@@ -10,7 +10,7 @@ var apiCenter = builder.AddBicepTemplate(
 var acaEnv = builder.AddAzureContainerAppEnvironment("aca-env");
 
 builder.AddProject<Projects.UsersApi>("usersapi")
-     .WithHttpHealthCheck("/health")
-     .WithExternalHttpEndpoints();
+  .WithHttpHealthCheck("/health")
+  .WithExternalHttpEndpoints();
 
 builder.Build().Run();
