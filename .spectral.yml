@@ -1,10 +1,1 @@
-extends: ["spectral:oas"]
-rules:
-  # Ensure error responses include schema
-  error-response-schema:
-    description: "4xx and 5xx responses should include a response schema"
-    given: "$.paths[*][*].responses[?(@property.match(/^[45][0-9]{2}$/))].content.application/json"
-    severity: error
-    then:
-      field: schema
-      function: truthy
+extends: ["spectral:oas", "@sander1095/openapi-spectral-ruleset"]
