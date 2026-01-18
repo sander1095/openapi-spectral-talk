@@ -4,7 +4,7 @@
 
 This is a **.NET 10 Aspire** project demonstrating **build-time OpenAPI generation** and validation with **Spectral**, featuring a distributed ruleset published to GitHub Packages. The solution consists of:
 
-- **UsersApi**: Minimal API with TypedResults for precise OpenAPI response documentation
+- **DinosaursApi**: Minimal API with TypedResults for precise OpenAPI response documentation
 - **Aspire.AppHost**: Orchestration layer for Azure deployment to Container Apps
 - **Aspire.ServiceDefaults**: Shared observability, health checks, and service discovery
 - **distributed-ruleset/**: NPM package containing custom Spectral validation rules
@@ -17,7 +17,7 @@ This is a **.NET 10 Aspire** project demonstrating **build-time OpenAPI generati
 
 1. Provisioning Azure API Center via [api-center.bicep](../infra/api-center.bicep)
 2. Creating Azure Container Apps Environment (`aca-env`)
-3. Deploying UsersApi with health checks and external endpoints
+3. Deploying DinosaursApi with health checks and external endpoints
 
 ## Developer Workflows
 
@@ -25,7 +25,7 @@ This is a **.NET 10 Aspire** project demonstrating **build-time OpenAPI generati
 
 ```bash
 # 1. Generate OpenAPI document (required first step)
-dotnet build src/UsersApi/UsersApi.csproj
+dotnet build src/DinosaursApi/DinosaursApi.csproj
 
 # 2. Install Spectral and distributed ruleset from GitHub Packages
 npm install
@@ -49,7 +49,7 @@ Use [deploy.ps1](../infra/deploy.ps1) which:
 dotnet run --project src/Aspire.AppHost
 
 # Standalone API (no observability)
-dotnet run --project src/UsersApi
+dotnet run --project src/DinosaursApi
 ```
 
 ## Code Conventions
@@ -60,15 +60,15 @@ dotnet run --project src/UsersApi
 
 ```csharp
 // ✅ CORRECT: Each response type documented via union type
-private static Results<Ok<User>, NotFound<ProblemDetails>> GetUserById(int id)
+private static Results<Ok<Dinosaur>, NotFound<ProblemDetails>> GetDinosaurById(int id)
 {
-    return user is null
+    return dinosaur is null
         ? TypedResults.NotFound(new ProblemDetails { ... })
-        : TypedResults.Ok(user);
+        : TypedResults.Ok(dinosaur);
 }
 
 // ❌ WRONG: Generic IResult loses OpenAPI schema information
-private static IResult GetUserById(int id) { ... }
+private static IResult GetDinosaurById(int id) { ... }
 ```
 
 ### OpenAPI Metadata Requirements
@@ -79,7 +79,7 @@ All endpoints must include (enforced by Spectral ruleset):
 - `.WithDescription()`: Recommended for detailed docs
 - `.WithName()`: Required for operationId generation
 
-See [UsersEndpoints.cs](../src/UsersApi/UsersEndpoints.cs#L21-L24) for reference implementation.
+See [DinosaursEndpoints.cs](../src/DinosaursApi/DinosaursEndpoints.cs#L21-L24) for reference implementation.
 
 ### Aspire Service Integration
 
@@ -102,7 +102,7 @@ Services must:
 
 ### OpenAPI Generation Configuration
 
-Set in [UsersApi.csproj](../src/UsersApi/UsersApi.csproj#L9-L11):
+Set in [DinosaursApi.csproj](../src/DinosaursApi/DinosaursApi.csproj#L9-L11):
 
 - `OpenApiGenerateDocuments`: Triggers build-time generation
 - `OpenApiDocumentsDirectory`: Output to repo root for Spectral access
@@ -130,7 +130,7 @@ Set in [UsersApi.csproj](../src/UsersApi/UsersApi.csproj#L9-L11):
 
 ## Key Files Reference
 
-- [UsersEndpoints.cs](../src/UsersApi/UsersEndpoints.cs): Endpoint implementation patterns
-- [Program.cs](../src/UsersApi/Program.cs): Service registration and OpenAPI configuration
+- [DinosaursEndpoints.cs](../src/DinosaursApi/DinosaursEndpoints.cs): Endpoint implementation patterns
+- [Program.cs](../src/DinosaursApi/Program.cs): Service registration and OpenAPI configuration
 - [AppHost.cs](../src/Aspire.AppHost/AppHost.cs): Deployment orchestration
 - [Extensions.cs](../src/Aspire.ServiceDefaults/Extensions.cs): Shared Aspire service configuration
