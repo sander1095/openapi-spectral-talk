@@ -15,11 +15,11 @@ This project demonstrates how to use [Spectral](https://stoplight.io/open-source
 │   ├── publish.sh                    # Manual publish script
 │   └── README.md                     # Ruleset documentation
 ├── src/
-│   └── UsersApi/
+│   └── DinosaursApi/
 │       ├── Program.cs                # Application entry point
-│       ├── User.cs                   # User model and DTOs
-│       ├── UsersEndpoints.cs         # CRUD endpoints with TypedResults
-│       └── UsersApi.csproj           # Project file with OpenAPI generation
+│       ├── Dinosaur.cs               # Dinosaur model and DTOs
+│       ├── DinosaursEndpoints.cs     # CRUD endpoints with TypedResults
+│       └── DinosaursApi.csproj       # Project file with OpenAPI generation
 ├── .spectral.yml                     # Spectral config (references distributed ruleset)
 ├── package.json                      # Root package.json (installs distributed ruleset)
 ├── openapi.json                      # Generated OpenAPI document (after build)
@@ -38,11 +38,11 @@ This project demonstrates how to use [Spectral](https://stoplight.io/open-source
 
 | Method | Endpoint | Description | Responses |
 |--------|----------|-------------|-----------|
-| GET | `/users` | Get all users | 200 |
-| GET | `/users/{id}` | Get user by ID | 200, 404 |
-| POST | `/users` | Create a new user | 201, 400, 409 |
-| PUT | `/users/{id}` | Update an existing user | 200, 400, 404, 409 |
-| DELETE | `/users/{id}` | Delete a user | 204, 404 |
+| GET | `/dinosaurs` | Get all dinosaurs | 200 |
+| GET | `/dinosaurs/{id}` | Get dinosaur by ID | 200, 404 |
+| POST | `/dinosaurs` | Create a new dinosaur | 201, 400, 409 |
+| PUT | `/dinosaurs/{id}` | Update an existing dinosaur | 200, 400, 404, 409 |
+| DELETE | `/dinosaurs/{id}` | Delete a dinosaur | 204, 404 |
 
 ## Prerequisites
 
@@ -55,7 +55,7 @@ This project demonstrates how to use [Spectral](https://stoplight.io/open-source
 ### 1. Build the project (generates OpenAPI document)
 
 ```bash
-dotnet build src/UsersApi/UsersApi.csproj
+dotnet build src/DinosaursApi/DinosaursApi.csproj
 ```
 
 This generates `openapi.json` in the repository root.
@@ -81,7 +81,7 @@ spectral lint openapi.json
 ### 4. Run the API (optional)
 
 ```bash
-dotnet run --project src/UsersApi/UsersApi.csproj
+dotnet run --project src/DinosaursApi/DinosaursApi.csproj
 ```
 
 The API will be available at `http://localhost:5000`. Access the OpenAPI document at `/openapi/v1.json`.

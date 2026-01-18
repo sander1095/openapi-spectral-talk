@@ -9,9 +9,6 @@
   "devDependencies": {
     "@stoplight/spectral-cli": "^6.11.0"
   },
-  "dependencies": {
-    "@sander1095/openapi-spectral-ruleset": "1.0.1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/sander1095/openapi-spectral-talk.git"
