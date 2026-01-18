@@ -1,7 +1,9 @@
 {
     "recommendations": [
-        "eliostruyf.vscode-demotime-theme",
         "stoplight.spectral",
-        "ms-dotnettools.csdevkit"
+        "ms-dotnettools.csdevkit",
+        "eliostruyf.vscode-demo-time",
+        "vsls-contrib.codetour",
+        "apidev.azure-api-center"
     ]
 }

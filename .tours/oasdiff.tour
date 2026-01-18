@@ -1,0 +1,11 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Oasdiff",
+  "steps": [
+    {
+      "file": ".github/workflows/openapi-validation.yml",
+      "description": "This is the part of the CI/CD pipeline that validates that there's no breaking changes in the API.\r\n\r\nWe run this during PR's, and compare this to the version on the branch we want to merge into.\r\n\r\nIn this case, we use the github action for this, to prevent us from having to install `go` or docker manually.\r\n\r\nHere we can check a PR being rejected because of breaking changes:\r\nhttps://github.com/sander1095/openapi-spectral-talk/actions/runs/21096211357",
+      "line": 87
+    }
+  ]
+}

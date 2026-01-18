@@ -19,7 +19,7 @@ public static class UsersEndpoints
             .WithTags("Users");
 
         group.MapGet("/", GetAllUsers)
-            .WithName("GetAllUsers")
+
             .WithSummary("Get all users")
             .WithDescription("Returns a list of all users in the system.");
 
