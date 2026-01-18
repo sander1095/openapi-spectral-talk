@@ -2,6 +2,7 @@
     "recommendations": [
         "stoplight.spectral",
         "ms-dotnettools.csdevkit",
-        "eliostruyf.vscode-demo-time"
+        "eliostruyf.vscode-demo-time",
+        "vsls-contrib.codetour"
     ]
 }
