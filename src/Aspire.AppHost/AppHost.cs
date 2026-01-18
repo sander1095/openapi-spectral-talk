@@ -9,7 +9,7 @@ var apiCenter = builder.AddBicepTemplate(
 // Add Azure Container Apps Environment
 var acaEnv = builder.AddAzureContainerAppEnvironment("aca-env");
 
-builder.AddProject<Projects.UsersApi>("usersapi")
+builder.AddProject<Projects.DinosaursApi>("dinosaursapi")
   .WithHttpHealthCheck("/health")
   .WithExternalHttpEndpoints();
 

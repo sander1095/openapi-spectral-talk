@@ -1,6 +1,6 @@
 using System.Reflection;
 using Scalar.AspNetCore;
-using UsersApi;
+using DinosaursApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +19,6 @@ app.MapOpenApi();
 
 app.MapScalarApiReference();
 
-app.MapUsersEndpoints();
+app.MapDinosaursEndpoints();
 
 app.Run();
