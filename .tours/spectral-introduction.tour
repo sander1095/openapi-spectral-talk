@@ -3,27 +3,27 @@
   "title": "Spectral introduction",
   "steps": [
     {
-      "file": "src/UsersApi/Program.cs",
+      "file": "src/DinosaursApi/Program.cs",
       "description": "We use `Microsoft.AspNetCore.OpenApi` for our OpenAPI capabilities",
       "line": 9
     },
     {
-      "file": "src/UsersApi/Program.cs",
+      "file": "src/DinosaursApi/Program.cs",
       "description": "We use `Scalar` to render our API definitions for visualization and try-outs",
       "line": 20
     },
     {
-      "file": "src/UsersApi/UsersEndpoints.cs",
-      "description": "We have a little CRUD API for users, using Minimal API's.\r\n\r\nAs you can see we use WithName, WithSummary, WithDescription to make it more clear what endpoints do",
+      "file": "src/DinosaursApi/DinosaursEndpoints.cs",
+      "description": "We have a little CRUD API for dinosaurs, using Minimal API's.\r\n\r\nAs you can see we use WithName, WithSummary, WithDescription to make it more clear what endpoints do",
       "line": 18
     },
     {
-      "file": "src/UsersApi/UsersEndpoints.cs",
-      "description": "This endpoint returns a user.\r\n\r\nInstead of WithSummary, you can also use XML comments, if you enable `GenerateDocumentationFile` in your csproj.\r\nThe Param will add documentation for the parameter.\r\n\r\nFinally, we use TypedResults to get compile-time safety for all the types we want to return, which is also inserted into the OpenAPI file.\r\n\r\nWe use ProblemDetails for the uniform API error type.\r\n\r\n**Let's try Scalar out:**  https://localhost:62540/scalar/",
+      "file": "src/DinosaursApi/DinosaursEndpoints.cs",
+      "description": "This endpoint returns a dinosaur.\r\n\r\nInstead of WithSummary, you can also use XML comments, if you enable `GenerateDocumentationFile` in your csproj.\r\nThe Param will add documentation for the parameter.\r\n\r\nFinally, we use TypedResults to get compile-time safety for all the types we want to return, which is also inserted into the OpenAPI file.\r\n\r\nWe use ProblemDetails for the uniform API error type.\r\n\r\n**Let's try Scalar out:**  https://localhost:62540/scalar/",
       "line": 61
     },
     {
-      "file": "src/UsersApi/UsersApi.csproj",
+      "file": "src/DinosaursApi/DinosaursApi.csproj",
       "description": "Because we want Spectral to validate our API by using an OpenAPI document, it's easiest to generate that document on build.\r\n\r\nWe can do this by installing `Microsoft.Extensions.ApiDescription.Server` and setting the properties above.\r\nIn this case, it will generate an `openapi.json` in the root of the project",
       "line": 11
     },
@@ -38,13 +38,13 @@
       "line": 3
     },
     {
-      "file": "src/UsersApi/Program.cs",
-      "description": "Spectral complained about missing metadata like the contact info, description and servers.\r\n\r\nWe can add this by using a Document Transformers:\r\n\r\n```csharp\r\nx.AddDocumentTransformer((document, context, cancellationToken) =>\r\n{\r\n    document.Info.Version = \"1.0.0\";\r\n    document.Info.Contact = new()\r\n    {\r\n        Name = \"Sander ten Brinke\",\r\n        Email = \"s.tenbrinke2@gmail.com\",\r\n        Url = new Uri(\"https://stenbrinke.nl\")\r\n    };\r\n    document.Info.Description = \"An example API for managing users.\";\r\n    document.Servers?.Add(new() { Url = \"https://localhost:62540\" });\r\n    return Task.CompletedTask;\r\n});\r\n```",
+      "file": "src/DinosaursApi/Program.cs",
+      "description": "Spectral complained about missing metadata like the contact info, description and servers.\r\n\r\nWe can add this by using a Document Transformers:\r\n\r\n```csharp\r\nx.AddDocumentTransformer((document, context, cancellationToken) =>\r\n{\r\n    document.Info.Version = \"1.0.0\";\r\n    document.Info.Contact = new()\r\n    {\r\n        Name = \"Sander ten Brinke\",\r\n        Email = \"s.tenbrinke2@gmail.com\",\r\n        Url = new Uri(\"https://stenbrinke.nl\")\r\n    };\r\n    document.Info.Description = \"An example API for managing dinosaurs.\";\r\n    document.Servers?.Add(new() { Url = \"https://localhost:62540\" });\r\n    return Task.CompletedTask;\r\n});\r\n```",
       "line": 11
     },
     {
-      "file": "src/UsersApi/UsersEndpoints.cs",
-      "description": "Spectral also complained about a missing OperationId.\r\n\r\nAn operationID gives each endpoint a unique identifier. This is important for lots of tooling like API Client generation.\r\n\r\nLet's add it!\r\n\r\n```csharp\r\n            .WithName(\"GetAllUsers\")\r\n```\r\n\r\nNow, let's re-run the validation!",
+      "file": "src/DinosaursApi/DinosaursEndpoints.cs",
+      "description": "Spectral also complained about a missing OperationId.\r\n\r\nAn operationID gives each endpoint a unique identifier. This is important for lots of tooling like API Client generation.\r\n\r\nLet's add it!\r\n\r\n```csharp\r\n            .WithName(\"GetAllDinosaurs\")\r\n```\r\n\r\nNow, let's re-run the validation!",
       "line": 22
     },
     {
