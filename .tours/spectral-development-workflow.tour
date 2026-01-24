@@ -18,16 +18,6 @@
       "line": 1
     },
     {
-      "file": "distributed-ruleset/.spectral.yml",
-      "description": "Here we can see the ruleset that's part of the package. In this case, each error must have a schema, so we don't return empty response bodies.",
-      "line": 1
-    },
-    {
-      "file": ".github/workflows/publish-ruleset.yml",
-      "description": "This distributed ruleset is part of a GitHub Actions workflow.",
-      "line": 33
-    },
-    {
       "file": "infra/api-center.bicep",
       "description": "Finally, there's the API center integration, together with the API Center extension.\r\n\r\nI use https://aspire.dev and `deploy.ps1` to deploy the API to Azure Container Apps, and load the definition into API center.\r\n\r\nAPI Center will then analyse my API linting rules.\r\n\r\nIn this repo, you can see me doing the same thing in the CI/CD pipeline. I believe that's quite powerful, but API Center would make it so you don't need to use that in each pipeline.\r\n\r\n[Link to Azure Portal](https://portal.azure.com/?l=en.nl-nl#@Sandertenbrinkexs4all.onmicrosoft.com/resource/subscriptions/65cbea20-04e6-49ae-869f-bcd6fb4d318f/resourceGroups/rg-api-linting/providers/Microsoft.ApiCenter/services/apic-api-linting-free/center)\r\n\r\n**Upload the ruleset and function with Azure API center**",
       "line": 10
