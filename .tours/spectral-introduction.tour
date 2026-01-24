@@ -29,7 +29,7 @@
     },
     {
       "file": "openapi.json",
-      "description": "This is the generated OpenAPI file.\r\n\r\nHere we see the endpoint for retrieving users. You can see that it has yellow lines, which we'll talk about in the next demo.\r\n\r\n\r\nLet's now use Spectral to validate our OpenAPI document:\r\n\r\n`spectral lint openapi.json`\r\n",
+      "description": "This is the generated OpenAPI file.\r\n\r\nHere we see the endpoint for retrieving dinosaurs. You can see that it has yellow lines, which we'll talk about in the next demo.\r\n\r\n\r\nLet's now use Spectral to validate our OpenAPI document:\r\n\r\n`spectral lint openapi.json`\r\n",
       "line": 19
     },
     {
@@ -49,7 +49,7 @@
     },
     {
       "file": ".spectral.yml",
-      "description": "Let's start adding a custom rule that validates that our paths are all kebab-case.\r\n\r\nThis will validate `users/{id}/liked-posts` instead of `users/{id}/LikedPosts`\r\n\r\n```\r\nrules:\r\n  paths-kebab-case:\r\n    description: Paths should be kebab-case.\r\n    message: \"{{property}} should be kebab-case (lower-case and separated with hyphens)\"\r\n    severity: warn\r\n    given: $.paths[*]~\r\n    then:\r\n      function: pattern\r\n      functionOptions:\r\n        match: \"^(\\/|[a-z0-9-.]+|{[a-zA-Z0-9_]+})+$\"\r\n\r\n\r\n```\r\n\r\n",
+      "description": "Let's start adding a custom rule that validates that our paths are all kebab-case.\r\n\r\nThis will validate `dinosaurs/{id}/liked-posts` instead of `dinosaurs/{id}/LikedPosts`\r\n\r\n```\r\nrules:\r\n  paths-kebab-case:\r\n    description: Paths should be kebab-case.\r\n    message: \"{{property}} should be kebab-case (lower-case and separated with hyphens)\"\r\n    severity: warn\r\n    given: $.paths[*]~\r\n    then:\r\n      function: pattern\r\n      functionOptions:\r\n        match: \"^(\\/|[a-z0-9-.]+|{[a-zA-Z0-9_]+})+$\"\r\n\r\n\r\n```\r\n\r\n",
       "line": 22
     },
     {
