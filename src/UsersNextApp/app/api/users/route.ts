@@ -11,7 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
  * GET /api/users
  * Returns a list of all users in the system.
  */
-export async function GET(): Promise<NextResponse> {
+export function GET(): NextResponse {
   const users = getAllUsers();
   return NextResponse.json(users, { status: 200 });
 }
