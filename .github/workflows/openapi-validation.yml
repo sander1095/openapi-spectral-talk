@@ -16,16 +16,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET 10
-        uses: actions/setup-dotnet@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          dotnet-version: "10.0.x"
+          node-version: "22"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@sander1095"
 
-      - name: Restore dependencies
-        run: dotnet restore src/UsersApi/UsersApi.csproj
+      - name: Install dependencies
+        working-directory: src/UsersNextApp
+        run: npm ci
 
-      - name: Build project (generates OpenAPI document)
-        run: dotnet build src/UsersApi/UsersApi.csproj --no-restore
+      - name: Generate OpenAPI document
+        working-directory: src/UsersNextApp
+        run: npm run generate-openapi
+
+      - name: Build project
+        working-directory: src/UsersNextApp
+        run: npm run build
 
       - name: Verify OpenAPI document was generated
         run: |

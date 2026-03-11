@@ -429,3 +429,7 @@ aspire-manifest.json
 
 
 **/aspire-output/
+
+# Next.js build artifacts
+**/.next/
+**/out/
